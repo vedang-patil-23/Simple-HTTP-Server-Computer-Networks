@@ -1,7 +1,3 @@
-Got it! Here’s an updated setup and performance section adapted for Windows.
-
----
-
 # Simple HTTP Server - Networking Project
 
 This project demonstrates a basic HTTP server built in C++ as part of my Computer Networks course.
