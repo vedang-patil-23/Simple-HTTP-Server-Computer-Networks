@@ -1,53 +1,56 @@
-# Simple HTTP Server - Computer Networks
+Got it! Here’s an updated setup and performance section adapted for Windows.
 
-Implementation of a simple HTTP server in C++
+---
 
-## Features
+# Simple HTTP Server - Networking Project
 
-- Can handle multiple concurrent connections, tested up to 10k.
-- Support basic HTTP request and response. Provide an extensible framework to implement other HTTP features.
-- HTTP/1.1: Persistent connection is enabled by default.
+This project demonstrates a basic HTTP server built in C++.
 
-## Quick start
+## Key Features
+
+- Manages multiple simultaneous connections, successfully tested with up to 10,000.
+- Supports essential HTTP requests and responses, with a framework that's easy to extend for additional HTTP functionality.
+- HTTP/1.1 compliant with persistent connections enabled by default.
+
+## Quick Setup
 
 ```bash
 mkdir build && cd build
 cmake ..
 make
-./test_SimpleHttpServer # Run unit tests
-./SimpleHttpServer      # Start the HTTP server on port 8080
+.\test_SimpleHttpServer.exe     # Run unit tests (on Windows)
+.\SimpleHttpServer.exe          # Start the HTTP server on port 8080
 ```
 
-- There are two endpoints available at `/` and `/hello.html` which are created for demo purpose.
-- In order to have multiple concurrent connections, make sure to raise the resource limit (with `ulimit`) before running the server. A non-root user by default can have about 1000 file descriptors opened, which corresponds to 1000 active clients.
+- Two demo endpoints are available at `/` and `/hello.html`.
+- To support many concurrent clients, it’s recommended to increase the file descriptor limit on Windows by setting the appropriate `ulimit` equivalent in Windows PowerShell or Command Prompt.
 
-## Design
+## Architecture Overview
 
-The server program consists of:
+The server program uses:
 
-- 1 main thread for user interaction.
-- 1 listener thread to accept incoming clients.
-- 5 worker threads to process HTTP requests and sends response back to client.
-- Utility functions to parse and manipulate HTTP requests and repsonses conveniently.
+- A primary thread for user interactions.
+- A listener thread dedicated to accepting incoming client connections.
+- Five worker threads for processing HTTP requests and sending responses.
+- Utility functions to easily parse and manage HTTP requests and responses.
 
-## Benchmark
+## Performance Testing
 
-I used a tool called [wrk](https://github.com/wg/wrk) to benchmark this HTTP server. The tests were performed on my laptop with the following specs:
+To evaluate server performance, I used [wrk](https://github.com/wg/wrk) (note: **wrk** needs to be installed through Windows Subsystem for Linux (WSL) or a similar tool as it is natively Unix-based). Testing was conducted on the following Windows laptop setup:
 
 ```bash
 Model: Thinkpad T480
-OS: Ubuntu 18.04 TLS x84_64
-Kernel: 4.18.0-24-generic
-CPU: Intel i7-8550 (8) @ 4.000 GHz
+OS: Windows 10
+Processor: Intel i7-8550 (8) @ 4.000 GHz
 GPU: Intel UHD Graphics 620
-Memory: 6010 MiB / 15803 MiB
+Memory: 16GB RAM
 ```
 
-Here are the results for two test runs. Each test ran for 1 minute, with 10 client threads. The first test had only 500 concurrent connections, while the second test had 10000.
+Below are the results from two benchmark tests, each running for 1 minute with 10 client threads. The first test had 500 concurrent connections, and the second test was conducted with 10,000.
 
 ```bash
-$ ./wrk -t10 -c500 -d60s http://0.0.0.0:8080/
-Running 1m test @ http://0.0.0.0:8080/
+$ ./wrk -t10 -c500 -d60s http://localhost:8080/
+Running 1m test @ http://localhost:8080/
   10 threads and 500 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
     Latency     5.01ms    1.31ms  57.86ms   86.35%
@@ -58,8 +61,8 @@ Transfer/sec:      7.35MB
 ```
 
 ```bash
-$ ./wrk -t10 -c10000 -d60s http://0.0.0.0:8080/
-Running 1m test @ http://0.0.0.0:8080/
+$ ./wrk -t10 -c10000 -d60s http://localhost:8080/
+Running 1m test @ http://localhost:8080/
   10 threads and 10000 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
     Latency   111.78ms   21.38ms 403.80ms   76.79%
@@ -67,6 +70,6 @@ Running 1m test @ http://0.0.0.0:8080/
   5174508 requests in 1.00m, 384.91MB read
 Requests/sec:  86123.84
 Transfer/sec:      6.41MB
-
 ```
 
+These results show the server’s capacity to handle a high volume of requests efficiently, even under heavy load.
