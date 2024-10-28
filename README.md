@@ -5,8 +5,8 @@ Got it! Here’s an updated setup and performance section adapted for Windows.
 # Simple HTTP Server - Networking Project
 
 This project demonstrates a basic HTTP server built in C++ as part of my Computer Networks course.
-###Project Objective: Create a simple HTTP web server.
-###Description: Develop a basic web server capable of serving static web pages. The 
+### Project Objective: Create a simple HTTP web server.
+### Description: Develop a basic web server capable of serving static web pages. The 
 server should handle HTTP GET and POST requests. You can extend the project by 
 adding functionalities like multi-threading to handle multiple client requests 
 simultaneously
